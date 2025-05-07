@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <h1>AuctionSite</h1>
+    </div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="auctions.html">Auctions</a></li>
+      <li><a href="categories.html">Categories</a></li>
+      <li><a href="help.html">Help</a></li>
+      <li><a href="logout.php">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="dashboard-container">
+    <h2>Welcome, <span id="user-name">User</span></h2>
+    <div class="dashboard-content">
+      <div class="card">
+        <h3>User Information</h3>
+        <p>Email: <span id="user-email"></span></p>
+        <p>Member since: <span id="user-registration-date"></span></p>
+      </div>
+      <!-- Add more cards as needed -->
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

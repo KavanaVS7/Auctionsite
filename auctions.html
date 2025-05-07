@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auctions - AuctionSite</title>
+  <link rel="stylesheet" href="auctions.css" />
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <h1>AuctionSite</h1>
+    </div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="auctions.html" class="active">Auctions</a></li>
+      <li><a href="categories.html">Categories</a></li>
+      <li><a href="help.html">Help</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h2 id="category-title">Live Auctions</h2>
+    <div id="auction-list" class="auction-grid">
+      <!-- Auction cards inserted here -->
+    </div>
+  </main>
+
+  <script>
+    const auctions = [
+      { id: 1, name: "Van Gogh Painting", category: "art", highestBid: 5000, endDate: "2025-05-05", image: "images/van-gogh.jpg" },
+      { id: 2, name: "Vintage Radio", category: "electronics", highestBid: 120, endDate: "2025-05-07", image: "images/radio.jpg" },
+      { id: 3, name: "Rare Coin", category: "collectibles", highestBid: 300, endDate: "2025-05-08", image: "images/coin.jpg" },
+      { id: 4, name: "Diamond Ring", category: "jewelry", highestBid: 10000, endDate: "2025-05-10", image: "images/ring.jpg" },
+      { id: 5, name: "Leather Jacket", category: "fashion", highestBid: 90, endDate: "2025-05-11", image: "images/jacket.jpg" },
+      { id: 6, name: "Antique Vase", category: "antiques", highestBid: 220, endDate: "2025-05-12", image: "images/vase.jpg" }
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get("category");
+
+    if (category) {
+      document.getElementById("category-title").textContent = `Live Auctions in ${category}`;
+    }
+
+    const container = document.getElementById("auction-list");
+    const filtered = category ? auctions.filter(a => a.category === category) : auctions;
+
+    filtered.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "auction-card";
+      div.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" class="auction-img"/>
+        <h3>${item.name}</h3>
+        <p>Highest Bid: $${item.highestBid}</p>
+        <p>Ends: ${item.endDate}</p>
+        <button onclick="window.location.href='auction-detail.html?id=${item.id}'">View Details</button>
+      `;
+      container.appendChild(div);
+    });
+  </script>
+
+</body>
+</html>
