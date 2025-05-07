@@ -17,70 +17,17 @@ def get_db():
     return conn
 conn = sqlite3.connect('auction_platform.db')
 cursor = conn.cursor()
+def query_db(query, args=(), one=False):
+    with sqlite3.connect('auction_platform.db') as conn:
+        conn.row_factory = sqlite3.Row
+        cur = conn.execute(query, args)
+        result = cur.fetchall()
+        return (result[0] if result else None) if one else [dict(row) for row in result]
+
+
 
 # Corrected data with colons (:) instead of equals signs (=)
-new_items_data = [
-    {
-        "item_id": 29,
-        "name": "Outfit",
-        "description": "Fitchexk",
-        "photo_url": "https://cdn.pixabay.com/photo/2016/11/22/21/57/apparel-1850804_1280.jpg"
-    },
-    {
-        "item_id": 30,
-        "name": "Cupboard",
-        "description": "ALl in one",
-        "photo_url": "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg"
-    },
-    {
-        "item_id": 31,
-        "name": "Mouse",
-        "description": "he computer mouse is a handheld pointing device used to control a cursor on a computer screen, allowing users to interact with the computer",
-        "photo_url": "https://cdn.pixabay.com/photo/2017/11/27/21/31/computer-2982270_1280.jpg"
-    },
-    {
-        "item_id": 32,
-        "name": "Vibewithvintage",
-        "description": "A vintage car is generally an old automobile ",
-        "photo_url": "'https://cdn.pixabay.com/photo/2015/12/15/09/20/car-1093927_1280.jpg,"
-    },
-    {
-        "item_id": 33,
-        "name": "Flower vase",
-        "description": "Decorate it with flower",
-        "photo_url": "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg"
-    },
-    {
-        "item_id": 34,
-        "name": "Camera",
-        "description": "Pause the moment",
-        "photo_url": "https://cdn.pixabay.com/photo/2017/11/27/21/31/computer-2982270_1280.jpg"
-    },
-     
-     
-    # Add more items as needed
-]
 
-# Loop through and update the data
-for item in new_items_data:
-    cursor.execute("""
-        UPDATE items
-        SET name = ?, description = ?, photo_url = ?
-        WHERE item_id = ?
-    """, (item["name"], item["description"], item["photo_url"], item["item_id"]))
-
-# Commit the changes and close the connection
-conn.commit()
-conn.close()
-
-print("Data updated successfully.")
-
-
-
-print("Items updated successfully.")
-
-
-print("Items updated successfully.")
 # ✅ Signup Route with OTP and password confirmation
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -220,5 +167,59 @@ def get_categories():
     conn.close()
 
     return jsonify([dict(cat) for cat in categories]), 200
+@app.route('/auctions', methods=['GET'])
+def get_auctions():
+    auctions = query_db('SELECT * FROM AUCTIONS')
+    return jsonify(auctions)
+@app.route('/bids', methods=['GET'])
+def get_bids():
+    bids = query_db('SELECT * FROM BIDS')
+    return jsonify(bids)
+@app.route('/payment', methods=['GET'])
+def get_payment():
+    payment = query_db('SELECT * FROM PAYMENT')
+    return jsonify(payment)
+@app.route('/item_photos', methods=['GET'])
+def get_itemphotos():
+    itemphotos = query_db('SELECT * FROM ITEM_PHOTOS')
+    return jsonify(itemphotos)
+@app.route('/shipping', methods=['GET'])
+def get_shipping():
+    shipping = query_db('SELECT * FROM SHIPPING_DETAILS')
+    return jsonify(shipping)
+@app.route('/reviews', methods=['GET'])
+def get_reviews():
+    reviews = query_db('SELECT * FROM REVIEWS')
+    return jsonify(reviews)
+@app.route('/auction_winners', methods=['GET'])
+def get_auction_winners():
+    auction_winners = query_db('SELECT * FROM AUCTION_WINNERS')
+    return jsonify(auction_winners)
+@app.route('/categories/<int:category_id>/auctions', methods=['GET'])
+def get_auctions_by_category(category_id):
+    query = """
+        SELECT 
+            a.auction_id, a.start_date, a.end_date, a.starting_price, a.status,
+            i.item_id, i.name AS item_name, i.description, i.photo_url
+        FROM AUCTIONS a
+        JOIN ITEMS i ON a.item_id = i.item_id
+        WHERE i.category_id = ?
+    """
+    auctions = query_db(query, (category_id,))
+    return jsonify(auctions)
+
+
+
+@app.route('/users/<int:user_id>/payments', methods=['GET'])
+def get_user_payments(user_id):
+    payments = query_db("SELECT * FROM PAYMENT WHERE user_id = ?", (user_id,))
+    return jsonify(payments)
+
+@app.route('/payments/<int:payment_id>/pay', methods=['POST'])
+def pay(payment_id):
+    with sqlite3.connect('auction_platform.db') as conn:
+        conn.execute("UPDATE PAYMENT SET status = 'Paid' WHERE payment_id = ?", (payment_id,))
+    return jsonify({"message": "Payment marked as Paid"})
+
 if __name__ == "__main__":
     app.run(debug=True)
