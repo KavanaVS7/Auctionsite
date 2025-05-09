@@ -1,0 +1,88 @@
+/* General Styles */
+/* Navigation Bar */
+nav {
+  background-color: #6A5ACD;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  flex-wrap: wrap;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+
+.logo h1 {
+  font-size: 24px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  color: white;
+}
+
+
+
+
+/* Auction Grid */
+.auction-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/* Auction Card */
+.auction-card {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  padding: 15px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.auction-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.auction-card h3 {
+  margin-top: 10px;
+}
+
+.auction-card p {
+  margin: 5px 0;
+}
+
+.auction-card button {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auction-card button:hover {
+  background-color: #003366;
+}
