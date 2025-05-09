@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Authentication - AuctionSite</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <h1>AuctionSite</h1>
+    </div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/auctions">Auctions</a></li>
+      <li><a href="/help">Help</a></li>
+      <li><a href="/login" class="active">Login</a></li>
+    </ul>
+  </nav>
+
+  <div class="auth-container">
+    <div class="tabs">
+      <button class="tab-button active" onclick="showForm('login')">Login</button>
+      
+      
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form" class="form active">
+     
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashed-messages">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+      <form method="POST" action="{{ url_for('login') }}">
+
+
+        <label form="login-email">Email ID</label>
+        <input type="email" id="login-email" name="email" placeholder="Enter your email" required />
+
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" placeholder="Enter your password" required />
+        
+      
+        <button type="submit">Login</button>
+
+  <p><a href="{{ url_for('forgot_password') }}">Forgot your password?</a></p>
+      </form>
+    </div>
+
+    
+      
+      
+
+
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("login-form");
+    
+      form.addEventListener("submit", (e) => {
+        const email = form.email.value.trim();
+        const password = form.password.value;
+    
+        if (!email || !password) {
+          alert("Both fields are required.");
+          e.preventDefault();
+        }
+      });
+    });
+    </script>
+    
+  
+
+</body>
+</html>

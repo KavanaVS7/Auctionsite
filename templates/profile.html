@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #6A5ACD;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+        }
+
+        .nav-links li a.active {
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #5f4bb6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #5f4bb6;
+            color: white;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #6A5ACD;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #5a4bb5;
+        }
+    </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <h1>AuctionSite</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/auctions" id="auctionsLink">Auctions</a></li>
+      <li><a href="/help" id="helpLink">Help</a></li>
+      <li><a href="#" class="active">My Profile</a></li>
+      <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h2>Welcome,</h2>
+    <p><strong>Email:</strong> {{ email }}</p>
+    
+    
+
+    {% if bids %}
+    <h3 style="color: #5f4bb6;">Bid History</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Bid Amount</th>
+          <th>Bid Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for bid in bids %}
+        <tr>
+          <td>{{ bid.item_name }}</td>
+          <td>₹{{ bid.bid_amount }}</td>
+          <td>{{ bid.bid_time }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>You haven't placed any bids yet.</p>
+    {% endif %}
+
+    <h3 style="color: #5f4bb6;">Won Auctions</h3>
+
+    {% if won_auctions %}
+    <table>
+      <thead>
+        <tr>
+          <th>Winning Bid</th>
+          <th>Payment Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for auction in won_auctions %}
+          <tr>
+            
+            <td>₹{{ auction.winning_bid }}</td>
+            <td>
+              {% if auction.payment_status == 'Paid' %}
+                <span style="color: green;">Paid</span>
+              {% else %}
+                <span style="color: red;">Not Paid</span>
+              {% endif %}
+            </td>            
+          <td>
+            {% if not auction.is_paid %}
+            <form action="/pay/{{ auction.auction_id }}/gateway" method="GET">
+              <button type="submit">Pay Now</button>
+            </form>
+            
+            {% else %}
+              <em>N/A</em>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>You haven't won any auctions yet.</p>
+    {% endif %}
+  </div>
+
+</body>
+</html>

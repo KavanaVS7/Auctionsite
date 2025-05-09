@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Authentication - AuctionSite</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <h1>AuctionSite</h1>
+    </div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/auctions">Auctions</a></li>
+      <li><a href="/help">Help</a></li>
+      <li><a href="/login" class="active">Login</a></li>
+    </ul>
+  </nav>
+
+  <div class="auth-container">
+
+      
+    <button class="tab-button active" onclick="showForm('signup')">Sign Up</button>
+    <div id="signup-form" class="form active">
+        
+      
+      
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashed-messages">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+      <form id="signup-form" method="POST">
+        <input name="name" placeholder="Name" required><br>
+        <input name="email" type="email" placeholder="Email" required><br>
+        <input name="password" type="password" placeholder="Password" required><br>
+        <input name="confirm_password" type="password" placeholder="Re-enter Password" required><br>
+        <button type="submit">Sign Up</button>
+        
+      </form>
+      
+      
+    </div>
+
+   
+
+  
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const form = document.getElementById("signup-form");
+        
+          form.addEventListener("submit", (e) => {
+            const name = form.name.value.trim();
+            const email = form.email.value.trim();
+            const password = form.password.value;
+            const rePassword = form.confirm_password.value;
+        
+            if (!name || !email || !password || !rePassword) {
+              alert("Please fill in all fields.");
+              e.preventDefault();
+              return;
+            }
+        
+            if (password !== rePassword) {
+              alert("Passwords do not match.");
+              e.preventDefault();
+            }
+          });
+        });
+        </script>
+        
+  
+
+</body>
+</html>

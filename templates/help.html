@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help - AuctionSite</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='/help.css') }}">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <h1>AuctionSite</h1>
+    </div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/auctions">Auctions</a></li>
+      <li><a href="/help." class="active">Help</a></li>
+      <li><a href="/login">logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Help Content -->
+  <main>
+    <section class="help-container">
+      <h2>Help</h2>
+      <p>Welcome to the AuctionSite Help Center. Here you’ll find answers to frequently asked questions.</p>
+
+      <div class="faq-box">
+        <h3>How Can I Participate in Auctions?</h3>
+        <p>Simply create an account on AuctionSite and start bidding on your favorite items to win exclusive deals.</p>
+      </div>
+
+      <div class="faq-box">
+        <h3>How do I place a bid?</h3>
+        <p>To place a bid, navigate to the auction page, enter your bid amount, and click the "Place Bid" button.</p>
+      </div>
+
+      <div class="faq-box">
+        <h3>How can I contact support?</h3>
+        <p>You can reach our support team via email at <a href="mailto:support@auctionsite.com">support@auctionsite.com</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 AuctionSite. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

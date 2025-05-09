@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Online Auction System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <h1>AuctionSite</h1>
+    </div>
+    <ul>
+      <li><a href="/" id="indexLink">Home</a></li>
+      <li><a href="/auctions" id="auctionsLink">Auctions</a></li>
+      <li><a href="/help" id="helpLink">Help</a></li>
+      <li><a href="/login" id="loginLink">Login</a></li>
+    </ul>
+  </nav>
+
+  
+      <div class="banner-image">
+        <img src="{{ url_for('static', filename='image1.jpg') }}" alt="Auction Banner">
+      </div>
+
+  <!-- About Us -->
+  <section class="about-box">
+    <h2>About Us</h2>
+    <p>Welcome to <strong>AuctionSite</strong>, your trusted platform for online auctions. We connect buyers and sellers for secure and transparent trading of unique items.</p>
+
+    <div class="about-content">
+      <div class="mission">
+        <h3>Our Mission</h3>
+        <p>To make buying and selling simple, secure, and accessible for everyone around the world.</p>
+      </div>
+
+      <div class="how-it-works">
+        <h3>How It Works</h3>
+        <ul>
+          <li><strong>Browse Auctions</strong> – Find unique items.</li>
+          <li><strong>Place Bids</strong> – Bid competitively and fairly.</li>
+          <li><strong>Win Auctions</strong> – Secure the items you love!</li>
+        </ul>
+      </div>
+
+      <div class="team">
+        <h3>Our Team</h3>
+        <p>A passionate group of developers, designers, and auctioneers dedicated to your experience.</p>
+      </div>
+    </div>
+  </section>
+  <script>
+    function showForm(form) {
+      const loginForm = document.getElementById('login-form');
+      const signupForm = document.getElementById('signup-form');
+      const forgotForm = document.getElementById('forgot-form');
+  
+      loginForm.classList.remove('active');
+      signupForm.classList.remove('active');
+      forgotForm.classList.remove('active');
+  
+      if (form === 'login') loginForm.classList.add('active');
+      else if (form === 'signup') signupForm.classList.add('active');
+      else if (form === 'forgot') forgotForm.classList.add('active');
+  
+      // Update active tab button
+      const buttons = document.querySelectorAll('.tab-button');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      if (form === 'login') buttons[0].classList.add('active');
+      else if (form === 'signup') buttons[1].classList.add('active');
+      else if (form === 'forgot') buttons[2].classList.add('active');
+    }
+  
+    // Auto-select correct form based on backend variable
+  
+     
+  </script>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <ul class="footer-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="/help">Contact Us</a></li>
+        <li><a href="/help">FAQ</a></li>
+      </ul>
+      <div class="social-media">
+        <a href="https://www.facebook.com" class="social-icon"><img src="{{ url_for('static', filename='facebook.jpg') }}" alt="Facebook" /></a>
+        <a href="https://x.com" class="social-icon"><img src="{{ url_for('static', filename='twitter.jpg')}}" alt="Twitter" /></a>
+        <a href="https://www.instagram.com" class="social-icon"><img src="{{ url_for('static', filename='instagram.jpg')}}" alt="Instagram" /></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

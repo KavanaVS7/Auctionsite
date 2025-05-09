@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='auctions.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">AuctionSite</div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('active_auctions') }}" class="active">Auctions</a></li>
+            <li><a href="{{ url_for('help') }}">Help</a></li>
+            <li><a href="{{ url_for('profile') }}">My Profile</a></li>
+            {% if session.get('logged_in') %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+
+    {% for auction in auctions %}
+<div class="auction-box">
+    <h3>{{ auction.name }}</h3>
+    <p>{{ auction.description }}</p>
+    <p><strong>Starting Price:</strong> ₹{{ auction.starting_price }}</p>
+    <p><strong>Condition:</strong> {{ auction.condition }}</p>
+    
+    {% for img in auction.photo_urls %}
+        <img src="{{ url_for('static', filename= image4.jpg) }}" alt="Auction Image" width="100">
+    {% endfor %}
+
+    {% if auction.status == 'placed' %}
+        <p><strong>Status:</strong> Placed</p>
+    {% elif session.get('logged_in') %}
+        <form method="POST" action="{{ url_for('active_auctions') }}">
+            <input type="hidden" name="auction_id" value="{{ auction.id }}">
+            <input type="number" name="bid_amount" min="{{ auction.starting_price }}" required>
+            <button type="submit">Place Bid</button>
+        </form>
+    {% else %}
+        <p><a href="{{ url_for('login') }}">Login to place a bid</a></p>
+    {% endif %}
+</div>
+{% endfor %}
+
+ 
+</body>
+</html>

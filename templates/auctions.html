@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Active Auctions - AuctionSite</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='auctions.css') }}">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <h1>AuctionSite</h1>
+    </div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/auctions" class="active">Auctions</a></li>
+      <li><a href="/help">Help</a></li>
+      {% if session.get('email') %}
+        <li><a href="/profile">My Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+      {% else %}
+        <li><a href="/login">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <h1>Active Auctions</h1>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Auction Listings -->
+  <div class="auction-grid">
+    {% for auction in auctions %}
+      <div class="auction-card">
+        <img src="{{ auction.photo_url }}" alt="{{ auction.name }}" class="auction-img">
+        <h3>{{ auction.name }}</h3>
+        <p><strong>Starting Price:</strong> ₹{{ auction.starting_price }}</p>
+        <p><strong>Ends on:</strong> {{ auction.end_date }}</p>
+
+        {% if session.get('email') %}
+          <form method="POST" action="{{ url_for('show_auctions') }}">
+            <input type="hidden" name="auction_id" value="{{ auction.auction_id }}">
+            <input type="number" name="bid_amount" min="{{ auction.starting_price }}" required>
+            <button type="submit">Place Bid</button>
+          </form>
+        {% else %}
+          <p><a href="{{ url_for('login') }}">Login to place a bid</a></p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+</body>
+</html>

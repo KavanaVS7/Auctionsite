@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Gateway</title>
+    <style>
+        body { font-family: Arial; background-color: #f9f9f9; text-align: center; padding: 50px; }
+        .box {
+            background: white;
+            padding: 30px;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #5f4bb6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #483d8b;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Pay for Auction #{{ auction_id }}</h2>
+        <p><strong>Amount:</strong> ₹{{ amount }}</p>
+
+        <form method="POST">
+            <button type="submit">Confirm Payment</button>
+        </form>
+    </div>
+</body>
+</html>
