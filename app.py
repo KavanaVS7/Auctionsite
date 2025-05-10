@@ -16,8 +16,7 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
-conn = sqlite3.connect('auction_platform.db')
-cursor = conn.cursor()
+
 def query_db(query, args=(), one=False):
     with sqlite3.connect('auction_platform.db') as conn:
         conn.row_factory = sqlite3.Row
@@ -80,7 +79,7 @@ def signup():
         cursor.execute("INSERT INTO TEMP_USERS (name, email, password) VALUES (?, ?, ?)", 
                          (name, email, password))  # For security, hash this in real apps
         conn.commit()
-        cursor.execute("SELECT temp_user_id FROM TEMP_USERS WHERE email = ?", (email,))
+        #cursor.execute("SELECT temp_user_id FROM TEMP_USERS WHERE email = ?", (email,))
         # After successful signup, fetch the new temp_user_id
         cursor.execute("SELECT temp_user_id FROM TEMP_USERS WHERE email = ?", (email,))
         new_user = cursor.fetchone()
@@ -93,7 +92,7 @@ def signup():
 
         #user_id = cursor.fetchone()['temp_user_id']
         session['email'] = email
-        session['user_id'] = user_id
+        session['user_id'] = new_user_id
         session['user_type'] = 'temp'
         session['logged_in'] = True
 
@@ -192,7 +191,7 @@ def profile():
                     ELSE 'Not Paid'
                 END AS payment_status
             FROM AUCTIONS A
-            JOIN AUCTION_WINNERS AW ON A.auction_id = A.item_id
+            JOIN AUCTION_WINNERS AW ON A.item_id = A.item_id
             WHERE AW.user_id = ?
         """, (user_id,))
     else:
@@ -205,7 +204,7 @@ def profile():
                 ELSE 'Not Paid'
             END AS payment_status
         FROM AUCTIONS A
-        JOIN AUCTION_WINNERS AW ON A.auction_id = A.item_id
+        JOIN AUCTION_WINNERS AW ON A.item_id = A.auction_id
         JOIN ITEMS I ON A.item_id = I.item_id
         WHERE AW.user_id = ?
     """, (user_id,))
@@ -310,7 +309,7 @@ def payment_gateway(auction_id):
         GROUP BY 
             A.auction_id
     """, (auction_id,)).fetchone()
-
+    #print(dict(auction))
     if not auction:
         conn.close()
         flash("Auction not found.")
@@ -335,7 +334,7 @@ def payment_gateway(auction_id):
         conn.close()
         
         return redirect(url_for('profile'))
-
+        
     conn.close()
     return render_template("payment_gateway.html", 
                            auction_id=auction["auction_id"], 
